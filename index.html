@@ -258,9 +258,75 @@ body{
   .content{padding:12px}
   .kpi-row{grid-template-columns:repeat(2,1fr)}
 }
+/* ── Login overlay ─────────────────────────────────────────────── */
+#login-overlay{
+  position:fixed;inset:0;z-index:9999;
+  background:#0f172a;
+  display:flex;align-items:center;justify-content:center;
+}
+#login-box{
+  background:#1e293b;border-radius:16px;padding:40px 48px;
+  width:360px;box-shadow:0 24px 60px rgba(0,0,0,0.5);
+  display:flex;flex-direction:column;align-items:center;gap:24px;
+}
+#login-box img{height:48px;width:auto;margin-bottom:4px;}
+#login-box h2{color:#f1f5f9;font-size:18px;font-weight:700;margin:0;}
+#login-box p{color:#94a3b8;font-size:13px;margin:0;text-align:center;}
+.login-field{display:flex;flex-direction:column;gap:6px;width:100%;}
+.login-field label{color:#94a3b8;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;}
+.login-field input{
+  background:#0f172a;border:1.5px solid #334155;border-radius:8px;
+  padding:10px 14px;color:#f1f5f9;font-size:14px;outline:none;width:100%;box-sizing:border-box;
+}
+.login-field input:focus{border-color:#0ca678;}
+#login-btn{
+  width:100%;padding:11px;border-radius:8px;border:none;
+  background:#0ca678;color:#fff;font-size:14px;font-weight:700;
+  cursor:pointer;transition:background .2s;
+}
+#login-btn:hover{background:#059669;}
+#login-error{color:#f87171;font-size:13px;display:none;}
 </style>
 </head>
 <body>
+
+<!-- ── Login overlay ── -->
+<div id="login-overlay">
+  <div id="login-box">
+    <img src="epon_logo.png" alt="Epon">
+    <div style="text-align:center">
+      <h2>Epon Energy</h2>
+      <p>Sign in to access your cockpit</p>
+    </div>
+    <div class="login-field">
+      <label>Email</label>
+      <input id="login-user" type="email" placeholder="you@epon.energy" autocomplete="username">
+    </div>
+    <div class="login-field">
+      <label>Password</label>
+      <input id="login-pass" type="password" placeholder="••••••••" autocomplete="current-password">
+    </div>
+    <span id="login-error">Incorrect email or password.</span>
+    <button id="login-btn" onclick="doLogin()">Sign in</button>
+  </div>
+</div>
+
+<script>
+function doLogin(){
+  const u = document.getElementById('login-user').value.trim().toLowerCase();
+  const p = document.getElementById('login-pass').value;
+  const err = document.getElementById('login-error');
+  if(u === 'loic@epon.energy' && p === 'Cockpit'){
+    document.getElementById('login-overlay').style.display='none';
+    err.style.display='none';
+  } else {
+    err.style.display='block';
+  }
+}
+document.addEventListener('keydown', e => {
+  if(e.key==='Enter') doLogin();
+});
+</script>
 
 <!-- ════════════════════════════════════════════════ HEADER ═══ -->
 <header class="app-header">
