@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+  <meta http-equiv="Pragma" content="no-cache"/>
+  <meta http-equiv="Expires" content="0"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Epon Energy — Cockpit</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Arial', sans-serif;
+    background: #F7F7F9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+  }
+  .card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+    padding: 48px 40px 40px;
+    width: 100%;
+    max-width: 400px;
+  }
+  .logo-wrap {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+  .logo-wrap img {
+    height: 48px;
+  }
+  .logo-wrap .site-name {
+    margin-top: 10px;
+    font-size: 13px;
+    color: #888;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  label {
+    display: block;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 6px;
+  }
+  input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #ddd;
+    border-radius: 7px;
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+    transition: border-color .15s;
+    margin-bottom: 18px;
+    background: #FAFAFA;
+  }
+  input:focus { border-color: #009688; background: #fff; }
+  button {
+    width: 100%;
+    padding: 11px;
+    background: #009688;
+    color: #fff;
+    border: none;
+    border-radius: 7px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background .15s;
+    margin-top: 4px;
+  }
+  button:hover { background: #00796B; }
+  .error {
+    display: none;
+    background: #FFF3F3;
+    border: 1px solid #FFCDD2;
+    color: #C62828;
+    border-radius: 7px;
+    padding: 10px 14px;
+    font-size: 13px;
+    margin-top: 14px;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo-wrap">
+    <img src="epon_logo.png" alt="Epon Energy"/>
+    <div class="site-name">Cockpit</div>
+  </div>
+  <form onsubmit="login(event)">
+    <label for="username">Username</label>
+    <input id="username" type="email" placeholder="your@email.com" autocomplete="username" required/>
+    <label for="password">Password</label>
+    <input id="password" type="password" placeholder="••••••••" autocomplete="current-password" required/>
+    <button type="submit">Sign in</button>
+    <div class="error" id="err">Incorrect username or password.</div>
+  </form>
+</div>
+
+<script>
+// ── User configuration ───────────────────────────────────────────────────────
+// To add a new user: append an entry to USERS with { user, pass, dashboard }
+// where dashboard is the filename to redirect to.
+const USERS = [
+  { user: 'loic@epon.energy',              pass: 'Cockpit',        dashboard: 'dashboard_offtake_florennes.html'     },
+  { user: 'gregoire.masquelin@etherra.com', pass: 'SimulationEpon', dashboard: 'dashboard_clean_horizon.html' },
+];
+// ────────────────────────────────────────────────────────────────────────────
+
+function login(e) {
+  e.preventDefault();
+  const u = document.getElementById('username').value.trim().toLowerCase();
+  const p = document.getElementById('password').value;
+  const match = USERS.find(x => x.user.toLowerCase() === u && x.pass === p);
+  if (match) {
+    window.location.href = match.dashboard;
+  } else {
+    document.getElementById('err').style.display = 'block';
+  }
+}
+</script>
+</body>
+</html>
