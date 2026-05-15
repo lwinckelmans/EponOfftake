@@ -17,6 +17,8 @@
     justify-content: center;
     min-height: 100vh;
   }
+
+  /* ── Login card ── */
   .card {
     background: #fff;
     border-radius: 12px;
@@ -85,10 +87,98 @@
     margin-top: 14px;
     text-align: center;
   }
+
+  /* ── Dashboard picker ── */
+  #picker-view { display: none; }
+  .picker-header {
+    text-align: center;
+    margin-bottom: 28px;
+  }
+  .picker-header .welcome {
+    font-size: 13px;
+    color: #888;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-top: 8px;
+  }
+  .picker-header .greeting {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-top: 6px;
+  }
+  .picker-subtitle {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 12px;
+    text-align: left;
+  }
+  .dashboard-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .dashboard-btn {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: #F7F7F9;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 9px;
+    padding: 14px 16px;
+    cursor: pointer;
+    text-align: left;
+    transition: border-color .15s, background .15s;
+    width: 100%;
+    font-family: inherit;
+    margin: 0;
+  }
+  .dashboard-btn:hover {
+    border-color: #009688;
+    background: #f0fdfa;
+  }
+  .dashboard-btn .icon {
+    font-size: 1.4rem;
+    flex-shrink: 0;
+  }
+  .dashboard-btn .info { flex: 1; min-width: 0; }
+  .dashboard-btn .d-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1a1a2e;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .dashboard-btn .d-desc {
+    font-size: 12px;
+    color: #6b7280;
+    margin-top: 2px;
+  }
+  .dashboard-btn .arrow {
+    font-size: 1rem;
+    color: #009688;
+    flex-shrink: 0;
+  }
+  .logout-link {
+    text-align: center;
+    margin-top: 4px;
+  }
+  .logout-link a {
+    font-size: 12.5px;
+    color: #9ca3af;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .logout-link a:hover { color: #374151; text-decoration: underline; }
 </style>
 </head>
 <body>
-<div class="card">
+
+<!-- ── Login view ── -->
+<div class="card" id="login-view">
   <div class="logo-wrap">
     <img src="epon_logo.png" alt="Epon Energy"/>
     <div class="site-name">Cockpit</div>
@@ -103,14 +193,48 @@
   </form>
 </div>
 
+<!-- ── Dashboard picker view ── -->
+<div class="card" id="picker-view">
+  <div class="logo-wrap">
+    <img src="epon_logo.png" alt="Epon Energy"/>
+    <div class="site-name">Cockpit</div>
+  </div>
+  <div class="picker-header">
+    <div class="greeting" id="picker-greeting">Welcome</div>
+    <div class="welcome">Select a dashboard</div>
+  </div>
+  <p class="picker-subtitle">Your simulations</p>
+  <div class="dashboard-list" id="dashboard-list"></div>
+  <div class="logout-link"><a onclick="logout()">← Sign out</a></div>
+</div>
+
 <script>
 // ── User configuration ───────────────────────────────────────────────────────
-// To add a new user: append an entry to USERS with { user, pass, dashboard }
-// where dashboard is the filename to redirect to.
+// Each user can have either:
+//   dashboard : 'filename.html'           (single dashboard — redirects directly)
+//   dashboards: [{ label, desc, file }]   (multiple dashboards — shows picker)
 const USERS = [
-  { user: 'loic@epon.energy',              pass: 'Cockpit',          dashboard: 'dashboard_offtake_florennes.html'               },
-  { user: 'gregoire.masquelin@etherra.com', pass: 'SimulationEpon',   dashboard: 'dashboard_clean_horizon.html'                  },
-  { user: 'q.ramon@orka-power.com',         pass: 'EnergyManagementEpon', dashboard: 'EponDashboard_DePecker_OfftakeManagement.html' },
+  {
+    user: 'loic@epon.energy',
+    pass: 'Cockpit',
+    dashboard: 'dashboard_offtake_florennes.html'
+  },
+  {
+    user: 'gregoire.masquelin@etherra.com',
+    pass: 'SimulationEpon',
+    dashboards: [
+      {
+        label: 'Clean Horizon — Référence',
+        desc:  'Scénarios Base · Adjusted · Offtake 2025–2050',
+        file:  'dashboard_clean_horizon.html'
+      },
+      {
+        label: 'Fontilloi 4h — Revenue Forecast 2025–2050',
+        desc:  'Fontilloi 7,23MWp - 5MW-20MWh',
+        file:  'dashboard_Fontilloi_4h.html'
+      }
+    ]
+  },
 ];
 // ────────────────────────────────────────────────────────────────────────────
 
@@ -120,10 +244,57 @@ function login(e) {
   const p = document.getElementById('password').value;
   const match = USERS.find(x => x.user.toLowerCase() === u && x.pass === p);
   if (match) {
-    window.location.href = match.dashboard;
-  } else {
-    document.getElementById('err').style.display = 'block';
+    // Single dashboard → redirect immediately
+    if (match.dashboard) {
+      window.location.href = match.dashboard;
+      return;
+    }
+    // Multiple dashboards → show picker
+    if (match.dashboards && match.dashboards.length === 1) {
+      window.location.href = match.dashboards[0].file;
+      return;
+    }
+    if (match.dashboards && match.dashboards.length > 1) {
+      showPicker(match);
+      return;
+    }
   }
+  document.getElementById('err').style.display = 'block';
+}
+
+function showPicker(user) {
+  document.getElementById('login-view').style.display = 'none';
+  const picker = document.getElementById('picker-view');
+  picker.style.display = 'block';
+
+  // Greeting
+  const firstName = user.user.split('.')[0];
+  document.getElementById('picker-greeting').textContent =
+    'Welcome, ' + firstName.charAt(0).toUpperCase() + firstName.slice(1);
+
+  // Build dashboard buttons
+  const list = document.getElementById('dashboard-list');
+  list.innerHTML = '';
+  user.dashboards.forEach(function(d) {
+    const btn = document.createElement('button');
+    btn.className = 'dashboard-btn';
+    btn.innerHTML =
+      '<span class="icon">📊</span>' +
+      '<span class="info">' +
+        '<div class="d-label">' + d.label + '</div>' +
+        (d.desc ? '<div class="d-desc">' + d.desc + '</div>' : '') +
+      '</span>' +
+      '<span class="arrow">→</span>';
+    btn.onclick = function() { window.location.href = d.file; };
+    list.appendChild(btn);
+  });
+}
+
+function logout() {
+  document.getElementById('picker-view').style.display = 'none';
+  document.getElementById('login-view').style.display = 'block';
+  document.getElementById('username').value = '';
+  document.getElementById('password').value = '';
 }
 </script>
 </body>
