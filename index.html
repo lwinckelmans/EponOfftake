@@ -2,187 +2,45 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
-  <meta http-equiv="Pragma" content="no-cache"/>
-  <meta http-equiv="Expires" content="0"/>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+<meta http-equiv="Pragma" content="no-cache"/>
+<meta http-equiv="Expires" content="0"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Epon Energy — Cockpit</title>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'Arial', sans-serif;
-    background: #F7F7F9;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-  }
-
-  /* ── Login card ── */
-  .card {
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.10);
-    padding: 48px 40px 40px;
-    width: 100%;
-    max-width: 400px;
-  }
-  .logo-wrap {
-    text-align: center;
-    margin-bottom: 32px;
-  }
-  .logo-wrap img {
-    height: 48px;
-  }
-  .logo-wrap .site-name {
-    margin-top: 10px;
-    font-size: 13px;
-    color: #888;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-  }
-  label {
-    display: block;
-    font-size: 12.5px;
-    font-weight: 600;
-    color: #555;
-    margin-bottom: 6px;
-  }
-  input {
-    width: 100%;
-    padding: 10px 14px;
-    border: 1px solid #ddd;
-    border-radius: 7px;
-    font-size: 14px;
-    font-family: inherit;
-    outline: none;
-    transition: border-color .15s;
-    margin-bottom: 18px;
-    background: #FAFAFA;
-  }
-  input:focus { border-color: #009688; background: #fff; }
-  button {
-    width: 100%;
-    padding: 11px;
-    background: #009688;
-    color: #fff;
-    border: none;
-    border-radius: 7px;
-    font-size: 14px;
-    font-weight: 600;
-    font-family: inherit;
-    cursor: pointer;
-    transition: background .15s;
-    margin-top: 4px;
-  }
-  button:hover { background: #00796B; }
-  .error {
-    display: none;
-    background: #FFF3F3;
-    border: 1px solid #FFCDD2;
-    color: #C62828;
-    border-radius: 7px;
-    padding: 10px 14px;
-    font-size: 13px;
-    margin-top: 14px;
-    text-align: center;
-  }
-
-  /* ── Dashboard picker ── */
-  #picker-view { display: none; }
-  .picker-header {
-    text-align: center;
-    margin-bottom: 28px;
-  }
-  .picker-header .welcome {
-    font-size: 13px;
-    color: #888;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    margin-top: 8px;
-  }
-  .picker-header .greeting {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: #1a1a2e;
-    margin-top: 6px;
-  }
-  .picker-subtitle {
-    font-size: 12.5px;
-    font-weight: 600;
-    color: #555;
-    margin-bottom: 12px;
-    text-align: left;
-  }
-  .dashboard-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-bottom: 20px;
-  }
-  .dashboard-btn {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    background: #F7F7F9;
-    border: 1.5px solid #e5e7eb;
-    border-radius: 9px;
-    padding: 14px 16px;
-    cursor: pointer;
-    text-align: left;
-    transition: border-color .15s, background .15s;
-    width: 100%;
-    font-family: inherit;
-    margin: 0;
-  }
-  .dashboard-btn:hover {
-    border-color: #009688;
-    background: #f0fdfa;
-  }
-  .dashboard-btn .icon {
-    font-size: 1.4rem;
-    flex-shrink: 0;
-  }
-  .dashboard-btn .info { flex: 1; min-width: 0; }
-  .dashboard-btn .d-label {
-    font-size: 14px;
-    font-weight: 600;
-    color: #1a1a2e;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .dashboard-btn .d-desc {
-    font-size: 12px;
-    color: #6b7280;
-    margin-top: 2px;
-  }
-  .dashboard-btn .arrow {
-    font-size: 1rem;
-    color: #009688;
-    flex-shrink: 0;
-  }
-  .logout-link {
-    text-align: center;
-    margin-top: 4px;
-  }
-  .logout-link a {
-    font-size: 12.5px;
-    color: #9ca3af;
-    text-decoration: none;
-    cursor: pointer;
-  }
-  .logout-link a:hover { color: #374151; text-decoration: underline; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Arial, sans-serif; background: #F7F7F9; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+.card { background: #fff; border-radius: 12px; box-shadow: 0 4px 24px rgba(0,0,0,0.10); padding: 48px 40px 40px; width: 100%; max-width: 400px; }
+.logo-wrap { text-align: center; margin-bottom: 32px; }
+.logo-wrap img { height: 48px; }
+.logo-wrap .site-name { margin-top: 10px; font-size: 13px; color: #888; letter-spacing: 0.04em; text-transform: uppercase; }
+label { display: block; font-size: 12.5px; font-weight: 600; color: #555; margin-bottom: 6px; }
+input { width: 100%; padding: 10px 14px; border: 1px solid #ddd; border-radius: 7px; font-size: 14px; font-family: inherit; outline: none; transition: border-color .15s; margin-bottom: 18px; background: #FAFAFA; }
+input:focus { border-color: #009688; background: #fff; }
+button { width: 100%; padding: 11px; background: #009688; color: #fff; border: none; border-radius: 7px; font-size: 14px; font-weight: 600; font-family: inherit; cursor: pointer; transition: background .15s; margin-top: 4px; }
+button:hover { background: #00796B; }
+.error { display: none; background: #FFF3F3; border: 1px solid #FFCDD2; color: #C62828; border-radius: 7px; padding: 10px 14px; font-size: 13px; margin-top: 14px; text-align: center; }
+#picker-view { display: none; }
+.picker-header { text-align: center; margin-bottom: 28px; }
+.picker-header .welcome { font-size: 13px; color: #888; letter-spacing: 0.04em; text-transform: uppercase; margin-top: 8px; }
+.picker-header .greeting { font-size: 1.1rem; font-weight: 700; color: #1a1a2e; margin-top: 6px; }
+.picker-subtitle { font-size: 12.5px; font-weight: 600; color: #555; margin-bottom: 12px; text-align: left; }
+.dashboard-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; max-height: 60vh; overflow-y: auto; }
+.dashboard-btn { display: flex; align-items: center; gap: 14px; background: #F7F7F9; border: 1.5px solid #e5e7eb; border-radius: 9px; padding: 14px 16px; cursor: pointer; text-align: left; transition: border-color .15s, background .15s; width: 100%; font-family: inherit; margin: 0; }
+.dashboard-btn:hover { border-color: #009688; background: #f0fdfa; }
+.dashboard-btn .icon { font-size: 1.4rem; flex-shrink: 0; }
+.dashboard-btn .info { flex: 1; min-width: 0; }
+.dashboard-btn .d-label { font-size: 14px; font-weight: 600; color: #1a1a2e; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dashboard-btn .d-desc { font-size: 12px; color: #6b7280; margin-top: 2px; }
+.dashboard-btn .arrow { font-size: 1rem; color: #009688; flex-shrink: 0; }
+.logout-link { text-align: center; margin-top: 4px; }
+.logout-link a { font-size: 12.5px; color: #9ca3af; text-decoration: none; cursor: pointer; }
+.logout-link a:hover { color: #374151; text-decoration: underline; }
 </style>
 </head>
 <body>
-
-<!-- ── Login view ── -->
 <div class="card" id="login-view">
-  <div class="logo-wrap">
-    <img src="epon_logo.png" alt="Epon Energy"/>
-    <div class="site-name">Cockpit</div>
-  </div>
+  <div class="logo-wrap"><img src="epon_logo.png" alt="Epon Energy"/><div class="site-name">Cockpit</div></div>
   <form onsubmit="login(event)">
     <label for="username">Username</label>
     <input id="username" type="email" placeholder="your@email.com" autocomplete="username" required/>
@@ -192,13 +50,8 @@
     <div class="error" id="err">Incorrect username or password.</div>
   </form>
 </div>
-
-<!-- ── Dashboard picker view ── -->
 <div class="card" id="picker-view">
-  <div class="logo-wrap">
-    <img src="epon_logo.png" alt="Epon Energy"/>
-    <div class="site-name">Cockpit</div>
-  </div>
+  <div class="logo-wrap"><img src="epon_logo.png" alt="Epon Energy"/><div class="site-name">Cockpit</div></div>
   <div class="picker-header">
     <div class="greeting" id="picker-greeting">Welcome</div>
     <div class="welcome">Select a dashboard</div>
@@ -207,103 +60,90 @@
   <div class="dashboard-list" id="dashboard-list"></div>
   <div class="logout-link"><a onclick="logout()">← Sign out</a></div>
 </div>
-
 <script>
-// ── User configuration ───────────────────────────────────────────────────────
-// Each user can have either:
-//   dashboard : 'filename.html'           (single dashboard — redirects directly)
-//   dashboards: [{ label, desc, file }]   (multiple dashboards — shows picker)
+// ── User configuration ─────────────────────────────────────────────────
+// To add a user or dashboard: edit USERS below and push to GitHub.
 const USERS = [
   {
     user: 'loic@epon.energy',
     pass: 'Cockpit',
-    dashboard: 'dashboard_offtake_florennes.html'
+    dashboards: [
+      { label: 'Florennes — Offtake', desc: 'Florennes offtake management', file: 'dashboard_offtake_florennes.html' },
+      { label: 'Decathlon Alleur', desc: '249.6 kWp · BESS 220kW/440kWh', file: 'EponDashboard_Decathlon_Alleur.html' },
+      { label: 'Decathlon Anderlecht', desc: '701.3 kWp · BESS 220kW/440kWh', file: 'EponDashboard_Decathlon_Anderlecht.html' },
+      { label: 'Decathlon Charleroi', desc: '249.9 kWp · BESS 220kW/440kWh', file: 'EponDashboard_Decathlon_Charleroi.html' },
+      { label: 'Decathlon Kortrijk', desc: '597.8 kWp · BESS 300kW/600kWh', file: 'EponDashboard_Decathlon_Kortrijk.html' },
+      { label: 'Decathlon La Louviere', desc: '249.6 kWp · BESS 220kW/440kWh', file: 'EponDashboard_Decathlon_La_Louviere.html' },
+      { label: 'Decathlon Maasmechelen', desc: '313 kWp · BESS 300kW/600kWh', file: 'EponDashboard_Decathlon_Maasmechelen.html' },
+      { label: 'Decathlon Mons', desc: '222.3 kWp · BESS 220kW/440kWh', file: 'EponDashboard_Decathlon_Mons.html' },
+      { label: 'Decathlon Namur', desc: '467 kWp · BESS 220kW/440kWh', file: 'EponDashboard_Decathlon_Namur.html' },
+      { label: 'Decathlon Roeselare', desc: '310 kWp · BESS 400kW/800kWh', file: 'EponDashboard_Decathlon_Roeselare.html' },
+      { label: 'Decathlon Wavre', desc: '249.6 kWp · BESS 220kW/440kWh', file: 'EponDashboard_Decathlon_Wavre.html' },
+      { label: 'Mabru', desc: '7587.7 kWp · BESS 1MW/2.5MWh', file: 'EponDashboard_Mabru.html' }
+    ]
   },
   {
     user: 'q.ramon@orka-power.com',
     pass: 'EnergyManagementEpon',
-    dashboard: 'EponDashboard_DePecker_OfftakeManagement.html'
+    dashboards: [
+      { label: 'De Pecker — Offtake Management', desc: 'Energy management simulation', file: 'EponDashboard_DePecker_OfftakeManagement.html' },
+      { label: 'Decathlon Alleur', desc: '249.6 kWp · BESS 220kW/440kWh', file: 'EponDashboard_Decathlon_Alleur.html' },
+      { label: 'Decathlon Anderlecht', desc: '701.3 kWp · BESS 220kW/440kWh', file: 'EponDashboard_Decathlon_Anderlecht.html' },
+      { label: 'Decathlon Charleroi', desc: '249.9 kWp · BESS 220kW/440kWh', file: 'EponDashboard_Decathlon_Charleroi.html' },
+      { label: 'Decathlon Kortrijk', desc: '597.8 kWp · BESS 300kW/600kWh', file: 'EponDashboard_Decathlon_Kortrijk.html' },
+      { label: 'Decathlon La Louviere', desc: '249.6 kWp · BESS 220kW/440kWh', file: 'EponDashboard_Decathlon_La_Louviere.html' },
+      { label: 'Decathlon Maasmechelen', desc: '313 kWp · BESS 300kW/600kWh', file: 'EponDashboard_Decathlon_Maasmechelen.html' },
+      { label: 'Decathlon Mons', desc: '222.3 kWp · BESS 220kW/440kWh', file: 'EponDashboard_Decathlon_Mons.html' },
+      { label: 'Decathlon Namur', desc: '467 kWp · BESS 220kW/440kWh', file: 'EponDashboard_Decathlon_Namur.html' },
+      { label: 'Decathlon Roeselare', desc: '310 kWp · BESS 400kW/800kWh', file: 'EponDashboard_Decathlon_Roeselare.html' },
+      { label: 'Decathlon Wavre', desc: '249.6 kWp · BESS 220kW/440kWh', file: 'EponDashboard_Decathlon_Wavre.html' },
+      { label: 'Mabru', desc: '7587.7 kWp · BESS 1MW/2.5MWh', file: 'EponDashboard_Mabru.html' }
+    ]
+  },
+  {
+    user: 'claude.vanderheyde@orka-power.com',
+    pass: 'EnergyManagementEpon',
+    dashboards: [
+      { label: 'Decathlon Alleur', desc: '249.6 kWp · BESS 220kW/440kWh', file: 'EponDashboard_Decathlon_Alleur.html' },
+      { label: 'Decathlon Anderlecht', desc: '701.3 kWp · BESS 220kW/440kWh', file: 'EponDashboard_Decathlon_Anderlecht.html' },
+      { label: 'Decathlon Charleroi', desc: '249.9 kWp · BESS 220kW/440kWh', file: 'EponDashboard_Decathlon_Charleroi.html' },
+      { label: 'Decathlon Kortrijk', desc: '597.8 kWp · BESS 300kW/600kWh', file: 'EponDashboard_Decathlon_Kortrijk.html' },
+      { label: 'Decathlon La Louviere', desc: '249.6 kWp · BESS 220kW/440kWh', file: 'EponDashboard_Decathlon_La_Louviere.html' },
+      { label: 'Decathlon Maasmechelen', desc: '313 kWp · BESS 300kW/600kWh', file: 'EponDashboard_Decathlon_Maasmechelen.html' },
+      { label: 'Decathlon Mons', desc: '222.3 kWp · BESS 220kW/440kWh', file: 'EponDashboard_Decathlon_Mons.html' },
+      { label: 'Decathlon Namur', desc: '467 kWp · BESS 220kW/440kWh', file: 'EponDashboard_Decathlon_Namur.html' },
+      { label: 'Decathlon Roeselare', desc: '310 kWp · BESS 400kW/800kWh', file: 'EponDashboard_Decathlon_Roeselare.html' },
+      { label: 'Decathlon Wavre', desc: '249.6 kWp · BESS 220kW/440kWh', file: 'EponDashboard_Decathlon_Wavre.html' },
+      { label: 'Mabru', desc: '7587.7 kWp · BESS 1MW/2.5MWh', file: 'EponDashboard_Mabru.html' }
+    ]
   },
   {
     user: 'gregoire.masquelin@etherra.com',
     pass: 'SimulationEpon',
     dashboards: [
-      {
-        label: 'Clean Horizon — Référence',
-        desc:  'Scénarios Base · Adjusted · Offtake 2025–2050',
-        file:  'dashboard_clean_horizon.html'
-      },
-      {
-        label: 'Fontilloi 4h — Revenue Forecast 2025–2050',
-        desc:  'Scénarios Base · Adjusted · Offtake 2025–2050',
-        file:  'dashboard_Fontilloi_4h.html'
-      },
-      {
-        label: 'Fontilloi 2h — Revenue Forecast 2025–2050',
-        desc:  'Scénarios Base · Adjusted · Offtake 2025–2050',
-        file:  'dashboard_Fontilloi_2h.html'
-      },
-      {
-        label: 'Bourlers 2h — Revenue Forecast 2025–2050',
-        desc:  'Bourlers 3,3MWp - 2,51MW/5,02MWh',
-        file:  'dashboard_Bourlers_2h.html'
-      },
-      {
-        label: 'Bourlers 4h — Revenue Forecast 2025–2050',
-        desc:  'Bourlers 3,3MWp - 2,51MW-10,04MWh',
-        file:  'dashboard_Bourlers_4h.html'
-      },
-      {
-        label: 'Fontilloi Full 2h',
-        desc:  '12.5 MWp · 7.5 MW / 15 MWh',
-        file:  'dashboard_Fontilloi_Full_2h.html'
-      },
-      {
-        label: 'Fontilloi Full 4h',
-        desc:  '12.5 MWp · 7.5 MW / 30 MWh',
-        file:  'dashboard_Fontilloi_Full_4h.html'
-      }
+      { label: 'Clean Horizon — Référence', desc: 'Scénarios Base · Adjusted · Offtake 2025–2050', file: 'dashboard_clean_horizon.html' },
+      { label: 'Fontilloi 4h — Revenue Forecast 2025–2050', desc: 'Scénarios Base · Adjusted · Offtake 2025–2050', file: 'dashboard_Fontilloi_4h.html' },
+      { label: 'Fontilloi 2h — Revenue Forecast 2025–2050', desc: 'Scénarios Base · Adjusted · Offtake 2025–2050', file: 'dashboard_Fontilloi_2h.html' },
+      { label: 'Bourlers 2h — Revenue Forecast 2025–2050', desc: 'Bourlers 3,3MWp - 2,51MW/5,02MWh', file: 'dashboard_Bourlers_2h.html' },
+      { label: 'Bourlers 4h — Revenue Forecast 2025–2050', desc: 'Bourlers 3,3MWp - 2,51MW-10,04MWh', file: 'dashboard_Bourlers_4h.html' },
+      { label: 'Fontilloi Full 2h', desc: '12.5 MWp · 7.5 MW / 15 MWh', file: 'dashboard_Fontilloi_Full_2h.html' },
+      { label: 'Fontilloi Full 4h', desc: '12.5 MWp · 7.5 MW / 30 MWh', file: 'dashboard_Fontilloi_Full_4h.html' }
     ]
   },
-
   {
     user: 'pierre.deliedekerke@etherra.com',
     pass: 'SimulationEponCleanHorizon',
     dashboards: [
-      {
-        label: 'Fontilloi Full 2h',
-        desc:  '12.5 MWp · 7.5 MW / 15 MWh',
-        file:  'dashboard_Fontilloi_Full_2h.html'
-      },
-      {
-        label: 'Fontilloi Full 4h',
-        desc:  '12.5 MWp · 7.5 MW / 30 MWh',
-        file:  'dashboard_Fontilloi_Full_4h.html'
-      },
-      {
-        label: 'Fontilloi 2h',
-        desc:  '7.23 MWp · 5 MW / 10 MWh',
-        file:  'dashboard_Fontilloi_2h.html'
-      },
-      {
-        label: 'Fontilloi 4h',
-        desc:  '7.23 MWp · 5 MW / 20 MWh',
-        file:  'dashboard_Fontilloi_4h.html'
-      },
-      {
-        label: 'Bourlers 2h',
-        desc:  '3.3 MWp · 2.51 MW / 5 MWh',
-        file:  'dashboard_Bourlers_2h.html'
-      },
-      {
-        label: 'Bourlers 4h',
-        desc:  '3.3 MWp · 2.51 MW / 10 MWh',
-        file:  'dashboard_Bourlers_4h.html'
-      }
+      { label: 'Fontilloi Full 2h', desc: '12.5 MWp · 7.5 MW / 15 MWh', file: 'dashboard_Fontilloi_Full_2h.html' },
+      { label: 'Fontilloi Full 4h', desc: '12.5 MWp · 7.5 MW / 30 MWh', file: 'dashboard_Fontilloi_Full_4h.html' },
+      { label: 'Fontilloi 2h', desc: '7.23 MWp · 5 MW / 10 MWh', file: 'dashboard_Fontilloi_2h.html' },
+      { label: 'Fontilloi 4h', desc: '7.23 MWp · 5 MW / 20 MWh', file: 'dashboard_Fontilloi_4h.html' },
+      { label: 'Bourlers 2h', desc: '3.3 MWp · 2.51 MW / 5 MWh', file: 'dashboard_Bourlers_2h.html' },
+      { label: 'Bourlers 4h', desc: '3.3 MWp · 2.51 MW / 10 MWh', file: 'dashboard_Bourlers_4h.html' }
     ]
-  },
+  }
 ];
-// ────────────────────────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────
 
 function login(e) {
   e.preventDefault();
@@ -311,47 +151,24 @@ function login(e) {
   const p = document.getElementById('password').value;
   const match = USERS.find(x => x.user.toLowerCase() === u && x.pass === p);
   if (match) {
-    // Single dashboard → redirect immediately
-    if (match.dashboard) {
-      window.location.href = match.dashboard;
-      return;
-    }
-    // Multiple dashboards → show picker
-    if (match.dashboards && match.dashboards.length === 1) {
-      window.location.href = match.dashboards[0].file;
-      return;
-    }
-    if (match.dashboards && match.dashboards.length > 1) {
-      showPicker(match);
-      return;
-    }
+    if (match.dashboards.length === 1) { window.location.href = match.dashboards[0].file; return; }
+    showPicker(match); return;
   }
   document.getElementById('err').style.display = 'block';
 }
 
 function showPicker(user) {
   document.getElementById('login-view').style.display = 'none';
-  const picker = document.getElementById('picker-view');
-  picker.style.display = 'block';
-
-  // Greeting
+  document.getElementById('picker-view').style.display = 'block';
   const firstName = user.user.split('.')[0];
   document.getElementById('picker-greeting').textContent =
     'Welcome, ' + firstName.charAt(0).toUpperCase() + firstName.slice(1);
-
-  // Build dashboard buttons
   const list = document.getElementById('dashboard-list');
   list.innerHTML = '';
   user.dashboards.forEach(function(d) {
     const btn = document.createElement('button');
     btn.className = 'dashboard-btn';
-    btn.innerHTML =
-      '<span class="icon">📊</span>' +
-      '<span class="info">' +
-        '<div class="d-label">' + d.label + '</div>' +
-        (d.desc ? '<div class="d-desc">' + d.desc + '</div>' : '') +
-      '</span>' +
-      '<span class="arrow">→</span>';
+    btn.innerHTML = '<span class="icon">📊</span><span class="info"><div class="d-label">' + d.label + '</div>' + (d.desc ? '<div class="d-desc">' + d.desc + '</div>' : '') + '</span><span class="arrow">→</span>';
     btn.onclick = function() { window.location.href = d.file; };
     list.appendChild(btn);
   });
