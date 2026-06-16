@@ -101,19 +101,19 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
 
 <!-- Section nav -->
 <div class="sec-nav">
-  <button class="stab active" onclick="showSec('profil',this)">📊 Consumption Profile</button>
+  <button class="stab" onclick="showSec('em',this)">📊 Energy Management</button>
+  <button class="stab" onclick="showSec('profil',this)">📊 Consumption Profile</button>
   <button class="stab" onclick="showSec('prix',this)">⚡ Purchase Price</button><button class="stab" onclick="showSec('spot',this)">📈 Spot Exposure</button>
   <button class="stab" onclick="showSec('dr',this)">🔁 Demand Response</button>
   <button class="stab" onclick="showSec('inj',this)">💡 Injection Management</button>
   <button class="stab" onclick="showSec('ps',this)">⚡ Peak Shaving</button>
-  <button class="stab" onclick="showSec('em',this)">📊 Energy Management</button>
-  <button class="stab" onclick="showSec('bess',this)">🔋 BESS Investment</button>
+  
 </div>
 
 <div class="setup-bar"><span class="setup-bar-lbl">Simulation setup</span><div class="setup-toggle"><button class="setup-pill active" data-setup="Current" onclick="switchSetup('Current')">Current</button> <button class="setup-pill" data-setup="S1" onclick="switchSetup('S1')">S1</button></div></div>
 
 <!-- ═══════════════ CONSUMPTION PROFILE ═══════════════ -->
-<section id="s-profil" class="sec active">
+<section id="s-profil" class="sec">
 <div class="main">
 
   <div class="ptitle">📊 Consumption Profile — Luik_Natie 2025</div>
@@ -418,20 +418,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
 
   <div class="ptitle">🏭 Energy Management — Luik_Natie 2025</div>
   <div class="psub">Luik_Natie · Annual operational gain estimation by optimisation lever · <span id="em-setup-lbl" style="font-weight:600;color:#1a2332">Active Setup: Current</span></div>
-
-  <!-- KPI summary cards -->
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px">
-    <div id="em-kpi-s1" style="background:#fff;border-radius:16px;box-shadow:0 2px 8px rgba(0,0,0,.06),0 0 0 1px rgba(0,0,0,.04);padding:22px 26px;border-left:5px solid #0ca678">
-      <div style="font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:#9ca3af;font-weight:600;margin-bottom:8px" id="em-kpi-s1-lbl">⚡ Selected Setup — Total Gains</div>
-      <div style="font-size:2.2rem;font-weight:900;color:#1a2332;line-height:1.1" id="em-tot-s1">— €/yr</div>
-      <div style="font-size:11px;color:#6b7280;margin-top:6px">Operational gains · excl. CAPEX</div>
-    </div>
-    <div id="em-kpi-s2" style="background:#fff;border-radius:16px;box-shadow:0 2px 8px rgba(0,0,0,.06),0 0 0 1px rgba(0,0,0,.04);padding:22px 26px;border-left:5px solid #e2e8f0">
-      <div style="font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:#9ca3af;font-weight:600;margin-bottom:8px" id="em-kpi-s2-lbl">🔋 BESS Setup</div>
-      <div style="font-size:2.2rem;font-weight:900;color:#1a2332;line-height:1.1" id="em-tot-s2">— €/yr</div>
-      <div style="font-size:11px;color:#6b7280;margin-top:6px">Operational gains · excl. BESS CAPEX</div>
-    </div>
-  </div>
 
   <!-- Main lever table -->
   <div class="card">
@@ -1656,6 +1642,7 @@ function renderPSCharts(g) {
 // ══════════════════════════════════════════════════════
 
 const ALL_EM = {"Current": {"em_fee_pct": 15.0, "injection_gain": 14747, "dr_gain": 0, "purchasing_savings": 48361, "peak_shaving_gain": 0, "load_shifting_gain": 0, "total_gains": 63108, "em_fee": 14011, "em_fee_purchasing": 10241, "em_fee_injection": 3769, "em_fee_gains": 0, "client_benefit": 49097, "annual_peak_cost": 131779}, "S1": {"em_fee_pct": 15.0, "injection_gain": 7367, "dr_gain": 0, "purchasing_savings": 44348, "peak_shaving_gain": 0, "load_shifting_gain": 30595, "total_gains": 82310, "em_fee": 16060, "em_fee_purchasing": 9733, "em_fee_injection": 1738, "em_fee_gains": 4589, "client_benefit": 66250, "annual_peak_cost": 131779}};
+const BESS_VISIBLE = false;
 let EM = ALL_EM ? (ALL_EM['Current'] || ALL_EM[Object.keys(ALL_EM)[0]]) : null;
 
 function renderEMSection() {
@@ -1672,10 +1659,6 @@ function renderEMSection() {
 
   // Setup label updated immediately
   let el;
-  const c1 = document.getElementById('em-kpi-s1');
-  const c2 = document.getElementById('em-kpi-s2');
-  if (c1) c1.style.borderLeftColor = '#0ca678';
-  if (c2) c2.style.borderLeftColor = '#0ca678';
   el = document.getElementById('em-setup-lbl');
   if (el) el.textContent = 'Active Setup: ' + activeSetup;
 
@@ -1688,23 +1671,13 @@ function renderEMSection() {
     { ico:'☀️', label:'Injection Management',    nav:'inj',  method:'Avoided negative DA-price injections (BESS absorbs solar)',
       val: emAct.injection_gain, display: emAct.injection_gain > 0 ? null : 'CV Regime' },
     { ico:'📉', label:'Peak Shaving',            nav:'ps',   method:'Maandpiek reduction via BESS',
-      val: emAct.peak_shaving_gain, display: null },
+      val: emAct.peak_shaving_gain, display: emAct.peak_shaving_gain > 0 ? null : 'TBD' },
     { ico:'⬇️', label:'Demand Response',         nav:'dr',   method:'Load shifting to low-cost hours · P75−P25 spread',
       val: emAct.dr_gain, display: 'TBD' },
   ];
 
   const maxG   = Math.max(...LEVERS.map(l => l.val || 0), 1);
   const totVal = LEVERS.reduce((s, l) => s + (l.display ? 0 : (l.val || 0)), 0);
-
-  // KPI cards — aligned with lever table values
-  el = document.getElementById('em-kpi-s1-lbl');
-  if (el) el.textContent = '📋 ' + activeSetup + ' — Total Gains';
-  el = document.getElementById('em-tot-s1');
-  if (el) el.textContent = '+' + fmt(totVal) + ' €/yr';
-  el = document.getElementById('em-kpi-s2-lbl');
-  if (el) el.textContent = '💶 Epon EM Fee';
-  el = document.getElementById('em-tot-s2');
-  if (el) el.textContent = '+' + fmt(emAct.em_fee || 0) + ' €/yr';
 
   el = document.getElementById('em-table');
   if (!el) return;
@@ -1727,11 +1700,16 @@ function renderEMSection() {
     } else {
       resultHtml = fmtVal(l.val || 0);
     }
-    h += '<tr style="border-bottom:1px solid #f1f3f5;cursor:pointer" '
-       + 'onclick="emNavTo(\'' + l.nav + '\')" '
-       + 'onmouseover="this.style.background=\'#f9fafb\'" '
-       + 'onmouseout="this.style.background=\'\'">'
-       + '<td style="padding:12px 14px;vertical-align:middle">'
+    var navable = !(l.nav === 'bess' && !BESS_VISIBLE);
+    if (navable) {
+      h += '<tr style="border-bottom:1px solid #f1f3f5;cursor:pointer" '
+         + 'onclick="emNavTo(\'' + l.nav + '\')" '
+         + 'onmouseover="this.style.background=\'#f9fafb\'" '
+         + 'onmouseout="this.style.background=\'\'">';
+    } else {
+      h += '<tr style="border-bottom:1px solid #f1f3f5">';
+    }
+    h += '<td style="padding:12px 14px;vertical-align:middle">'
        +   '<div style="font-size:13px;font-weight:700;color:#1a2332">' + l.ico + ' ' + l.label + '</div>'
        + '</td>'
        + '<td style="padding:12px 14px;vertical-align:middle">'
@@ -1772,7 +1750,7 @@ if (ALL_EM) renderEMSection();
 //  BESS INVESTMENT
 // ══════════════════════════════════════════════════════
 
-const BESS = [{"setup": "Current", "label": "Baseline (no BESS)", "bess_power_kw": 0, "bess_capacity_kwh": 0, "injection_gain": 14747, "peak_shaving_gain": 0, "load_shifting_gain": 0, "purchasing_savings": 48361, "total_gain_eur": 63108, "em_fee_eur": 12453, "net_gain_eur": 50655}, {"setup": "S1", "label": "1 MW – 1.2 MWh BESS", "bess_power_kw": 600, "bess_capacity_kwh": 1200, "injection_gain": 7367, "peak_shaving_gain": 0, "load_shifting_gain": 30595, "purchasing_savings": 44348, "total_gain_eur": 82310, "em_fee_eur": 15428, "net_gain_eur": 66882}];
+const BESS = [{"setup": "Current", "label": "Baseline (no BESS)", "bess_power_kw": 0, "bess_capacity_kwh": 0, "injection_gain": 14747, "peak_shaving_gain": 0, "load_shifting_gain": 0, "purchasing_savings": 48361, "total_gain_eur": 63108, "em_fee_eur": 14011, "net_gain_eur": 49097}, {"setup": "S1", "label": "1 MW – 1.2 MWh BESS", "bess_power_kw": 600, "bess_capacity_kwh": 1200, "injection_gain": 7367, "peak_shaving_gain": 0, "load_shifting_gain": 30595, "purchasing_savings": 44348, "total_gain_eur": 82310, "em_fee_eur": 16060, "net_gain_eur": 66250}];
 
 function renderBESSSection() {
   const leftEl  = document.getElementById('bess-table-left');
@@ -1931,6 +1909,16 @@ function buildBESSRightTable(s) {
 }
 
 if (BESS) renderBESSSection();
+
+// Activate the first available section tab on load (Energy Management when
+// present, otherwise the first remaining tab — e.g. Consumption Profile).
+(function() {
+  var first = document.querySelector('.sec-nav .stab');
+  if (!first) return;
+  var oc = first.getAttribute('onclick') || '';
+  var m = oc.match(/showSec\('([^']+)'/);
+  if (m) showSec(m[1], first);
+})();
 </script>
 </body>
 </html>
